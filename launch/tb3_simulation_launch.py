@@ -41,8 +41,8 @@ RVIZ2_FILE = os.path.join(mvsimDir, 'mvsim_tutorial',
 
 def generate_launch_description():
     # Get the launch directory
-    bringup_dir = get_package_share_directory('nav2_bringup')
-    launch_dir = os.path.join(bringup_dir, 'launch')
+    #bringup_dir = get_package_share_directory('nav2_bringup')
+    launch_dir = os.path.join(mvsimNav2DemoDir, 'launch')
 
     # args that can be set from the command line or a default will be used
     world_file_launch_arg = DeclareLaunchArgument(
@@ -84,15 +84,15 @@ def generate_launch_description():
 
     bringup_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            os.path.join(launch_dir, 'bringup_launch.py')),
-        launch_arguments={'use_namespace': False,
-                          'slam': False,
-                          # 'map': map_yaml_file,
-                          'use_sim_time': False,
-                          'params_file': params_file,
-                          'autostart': autostart,
-                          'use_composition': use_composition,
-                          'use_respawn': use_respawn}.items())
+            os.path.join(launch_dir, 'mvsim_nav2_bringup_launch.py')),
+        launch_arguments={  # 'use_namespace': False,
+            # 'slam': False,
+            # 'map': None,  # map_yaml_file,
+            'use_sim_time': False,
+            'params_file': params_file,
+            'autostart': autostart,
+            'use_composition': use_composition,
+            'use_respawn': use_respawn}.items())
 
     # Nodes:
     mvsim_node = Node(
