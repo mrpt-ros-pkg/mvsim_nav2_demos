@@ -51,6 +51,7 @@ def generate_launch_description():
 
     # Create the launch configuration variables
     params_file = LaunchConfiguration('params_file')  # for nav2
+    use_sim_time = LaunchConfiguration('use_sim_time')
     autostart = LaunchConfiguration('autostart')
     use_composition = LaunchConfiguration('use_composition')
     use_respawn = LaunchConfiguration('use_respawn')
@@ -62,6 +63,11 @@ def generate_launch_description():
         default_value=os.path.join(
             mvsimNav2DemoDir, 'params', 'nav2_params.yaml'),
         description='Full path to the ROS2 parameters file to use for all launched nodes')
+
+    declare_use_sim_time_cmd = DeclareLaunchArgument(
+        'use_sim_time',
+        default_value='false',
+        description='Use simulation (Gazebo) clock if true')
 
     declare_autostart_cmd = DeclareLaunchArgument(
         'autostart', default_value='true',
@@ -88,11 +94,13 @@ def generate_launch_description():
         launch_arguments={  # 'use_namespace': False,
             # 'slam': False,
             # 'map': None,  # map_yaml_file,
-            'use_sim_time': False,
+            'use_sim_time': use_sim_time,
             'params_file': params_file,
             'autostart': autostart,
             'use_composition': use_composition,
             'use_respawn': use_respawn}.items())
+
+    # 'log_level': 'debug',
 
     # Nodes:
     mvsim_node = Node(
@@ -124,6 +132,7 @@ def generate_launch_description():
 
     # Declare the launch options
     ld.add_action(declare_params_file_cmd)
+    ld.add_action(declare_use_sim_time_cmd)
     ld.add_action(declare_autostart_cmd)
     ld.add_action(declare_use_composition_cmd)
     ld.add_action(declare_use_respawn_cmd)
