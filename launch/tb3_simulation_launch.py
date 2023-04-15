@@ -60,13 +60,13 @@ def generate_launch_description():
     declare_params_file_cmd = DeclareLaunchArgument(
         'params_file',
         default_value=os.path.join(
-            mvsimNav2DemoDir, 'params', 'nav2_params.yaml'),
+            mvsimNav2DemoDir, 'params', 'tb3_nav2_params.yaml'),
         description='Full path to the ROS2 parameters file to use for all launched nodes')
 
     declare_use_sim_time_cmd = DeclareLaunchArgument(
         'use_sim_time',
         default_value='false',
-        description='Use simulation (Gazebo) clock if true')
+        description='Use simulation (Gazebo/MVsim) clock if true')
 
     declare_autostart_cmd = DeclareLaunchArgument(
         'autostart', default_value='true',
@@ -90,9 +90,7 @@ def generate_launch_description():
     bringup_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(launch_dir, 'mvsim_nav2_bringup_launch.py')),
-        launch_arguments={  # 'use_namespace': False,
-            # 'slam': False,
-            # 'map': None,  # map_yaml_file,
+        launch_arguments={
             'use_sim_time': use_sim_time,
             'params_file': params_file,
             'autostart': autostart,
