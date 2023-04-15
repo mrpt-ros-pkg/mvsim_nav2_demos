@@ -41,7 +41,6 @@ RVIZ2_FILE = os.path.join(mvsimDir, 'mvsim_tutorial',
 
 def generate_launch_description():
     # Get the launch directory
-    #bringup_dir = get_package_share_directory('nav2_bringup')
     launch_dir = os.path.join(mvsimNav2DemoDir, 'launch')
 
     # args that can be set from the command line or a default will be used
