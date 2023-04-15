@@ -35,8 +35,8 @@ MVSIM_WORLD_FILE = os.path.join(mvsimDir, 'mvsim_tutorial',
                                 'demo_turtlebot_world.world.xml')
 MVSIM_ROS2_PARAMS_FILE = os.path.join(mvsimDir, 'mvsim_tutorial',
                                       'mvsim_ros2_params.yaml')
-RVIZ2_FILE = os.path.join(mvsimDir, 'mvsim_tutorial',
-                          'demo_turtlebot_world_ros2.rviz')
+RVIZ2_FILE = os.path.join(mvsimNav2DemoDir, 'params',
+                          'demo_mvsim_nav2_tb3.rviz')
 
 
 def generate_launch_description():
@@ -51,6 +51,7 @@ def generate_launch_description():
     # Create the launch configuration variables
     params_file = LaunchConfiguration('params_file')  # for nav2
     use_sim_time = LaunchConfiguration('use_sim_time')
+    use_slam = LaunchConfiguration('use_slam')
     autostart = LaunchConfiguration('autostart')
     use_composition = LaunchConfiguration('use_composition')
     use_respawn = LaunchConfiguration('use_respawn')
@@ -80,6 +81,10 @@ def generate_launch_description():
         'use_respawn', default_value='False',
         description='Whether to respawn if a node crashes. Applied when composition is disabled.')
 
+    declare_use_slam = DeclareLaunchArgument(
+        'use_slam', default_value='False',
+        description='Use SLAM.')
+
     # Specify the actions
     # start_gazebo_server_cmd = ExecuteProcess(
     # condition=IfCondition(use_simulator),
@@ -91,6 +96,7 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(
             os.path.join(launch_dir, 'mvsim_nav2_bringup_launch.py')),
         launch_arguments={
+            'slam': use_slam,
             'use_sim_time': use_sim_time,
             'params_file': params_file,
             'autostart': autostart,
@@ -133,6 +139,7 @@ def generate_launch_description():
     ld.add_action(declare_autostart_cmd)
     ld.add_action(declare_use_composition_cmd)
     ld.add_action(declare_use_respawn_cmd)
+    ld.add_action(declare_use_slam)
 
     ld.add_action(bringup_cmd)
 
