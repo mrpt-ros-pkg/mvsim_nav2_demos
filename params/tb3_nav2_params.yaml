@@ -225,10 +225,10 @@ global_costmap:
   global_costmap:
     ros__parameters:
       map_topic: "/global_costmap/costmap"   # JLBC
-      origin_x: -10
-      origin_y: -10
-      width: 30
-      height: 30
+      #origin_x: -1
+      #origin_y: 0
+      width: 10
+      height: 10
       update_frequency: 1.0
       publish_frequency: 1.0
       global_frame: map
