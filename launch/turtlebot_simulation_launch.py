@@ -35,8 +35,8 @@ MVSIM_WORLD_FILE = os.path.join(mvsimDir, 'mvsim_tutorial',
                                 'demo_turtlebot_world.world.xml')
 MVSIM_ROS2_PARAMS_FILE = os.path.join(mvsimDir, 'mvsim_tutorial',
                                       'mvsim_ros2_params.yaml')
-RVIZ2_FILE = os.path.join(mvsimNav2DemoDir, 'params',
-                          'demo_mvsim_nav2_tb3.rviz')
+RVIZ2_FILE = os.path.join(mvsimNav2DemoDir, 'rviz',
+                          'turtlebot.rviz')
 
 
 def generate_launch_description():
@@ -61,7 +61,7 @@ def generate_launch_description():
     declare_params_file_cmd = DeclareLaunchArgument(
         'params_file',
         default_value=os.path.join(
-            mvsimNav2DemoDir, 'params', 'tb3_nav2_params.yaml'),
+            mvsimNav2DemoDir, 'params', 'turtlebot_nav2_params.yaml'),
         description='Full path to the ROS2 parameters file to use for all launched nodes')
 
     declare_use_sim_time_cmd = DeclareLaunchArgument(

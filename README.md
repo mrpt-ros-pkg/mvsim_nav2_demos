@@ -7,7 +7,8 @@ Usage.
 - Build as usual (colcon build).
 - Invoke with:
 
-      ros2 launch mvsim_nav2_demos tb3_simulation_launch.py
+      ros2 launch mvsim_nav2_demos turtlebot_simulation_launch.py
+      ros2 launch mvsim_nav2_demos greenhouse_simulation_launch.py
     
     
 This package is based on [nav2_bringup](https://github.com/ros-planning/navigation2/tree/main/nav2_bringup), so we inherit their Apache-2 License here.
