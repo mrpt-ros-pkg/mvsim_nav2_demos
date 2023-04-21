@@ -36,7 +36,7 @@ MVSIM_WORLD_FILE = os.path.join(mvsimDir, 'mvsim_tutorial',
 MVSIM_ROS2_PARAMS_FILE = os.path.join(mvsimDir, 'mvsim_tutorial',
                                       'mvsim_ros2_params.yaml')
 RVIZ2_FILE = os.path.join(mvsimNav2DemoDir, 'rviz',
-                          'turtlebot.rviz')
+                          'tb3.rviz')
 
 
 def generate_launch_description():
