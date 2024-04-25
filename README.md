@@ -31,3 +31,18 @@ colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
     
 This package is based on [nav2_bringup](https://github.com/ros-planning/navigation2/tree/main/nav2_bringup), so we inherit their Apache-2 License here.
 
+
+## Launch alternative with mrpt_navigation
+
+- Clone into "src" https://github.com/mrpt-ros-pkg/mrpt_navigation.git
+- Build:
+```bash
+colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
+. install/setup.bash
+```
+
+- Launch:
+
+```bash
+ros2 launch mrpt_tutorials demo_reactive_nav_mvsim.launch.py  world_file:=$(pwd)/src/mvsim_nav2_demos/launch/demo_greenhouse_jjaa.world.xml
+```
