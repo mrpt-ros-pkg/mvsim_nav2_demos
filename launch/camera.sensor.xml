@@ -1,0 +1,29 @@
+<sensor class="camera" name="${sensor_name|camera1}">
+    <!--
+        * pose_3d: Pose of the RGB camera sensor on the robot (+Z forward)
+        See: https://docs.mrpt.org/reference/latest/class_mrpt_obs_CObservationImage.html
+    -->
+    <pose_3d> ${sensor_x|0.65}  ${sensor_y|0.0}  ${sensor_z|1.0}  ${sensor_yaw|-90.0} ${sensor_pitch|0} ${sensor_roll|-90.0}</pose_3d>
+
+    <sensor_period>${sensor_period_sec|0.1}</sensor_period>
+
+    <ncols>${ncols|640}</ncols>
+    <nrows>${nrows|480}</nrows>
+    <cx>${cx|320}</cx>
+    <cy>${cy|240}</cy>
+    <fx>${fx|400}</fx>
+    <fy>${fy|400}</fy>
+    <clip_min>${clip_min|1e-2}</clip_min>
+    <clip_max>${clip_max|1e+4}</clip_max>
+
+    <visual>
+      <model_uri>simple_camera.dae</model_uri>
+      <model_scale>${sensor_visual_scale|1.0}</model_scale>
+    </visual>
+
+    <!-- Publish sensor on MVSIM ZMQ topic? (Note, this is **not** related to ROS at all) -->
+    <publish enabled="${sensor_publish|false}">
+        <publish_topic>/${PARENT_NAME}/${NAME}</publish_topic>
+    </publish>
+
+</sensor>
