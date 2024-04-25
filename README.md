@@ -2,8 +2,18 @@
 
 Launch and configuration files for running [Nav2](https://navigation.ros.org/) on [MVsim](https://github.com/MRPT/mvsim) worlds using ROS 2.
 
-Usage.
+Usage:
 - Clone into your `workspace/src` directory.
+- Install dependencies (TESTED ON ROS humble !!):
+
+```bash
+sudo apt install \
+  ros-$ROS_DISTRO-mvsim \
+  ros-$ROS_DISTRO-navigation2 \
+  ros-$ROS_DISTRO-nav2-bringup \
+  ros-$ROS_DISTRO-turtlebot3*
+```
+
 - Build as usual (colcon build).
 - Invoke with:
 
