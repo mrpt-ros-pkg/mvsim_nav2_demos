@@ -15,6 +15,12 @@ sudo apt install \
 ```
 
 - Build as usual (colcon build).
+
+```bash
+colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
+. install/setup.bash
+```
+
 - Invoke with:
 
       ros2 launch mvsim_nav2_demos turtlebot_simulation_launch.py
