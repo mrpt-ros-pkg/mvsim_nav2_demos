@@ -105,9 +105,13 @@
 	<!-- ========================
 		   Vehicle(s) definition
 	     ======================== -->
-	<vehicle name="r1" class="jackal">
-		<init_pose>0 0 0</init_pose>  <!-- In global coords: x,y, yaw(deg) -->
-	</vehicle>
+	<for var="iX" from="0" to="1">
+		<for var="iY" from="0" to="2">
+			<vehicle class="jackal">
+				<init_pose>$f{12*iX-6} $f{12*iY-12} 0</init_pose>  <!-- In global coords: x,y, yaw(deg) -->
+			</vehicle>
+		</for>
+	</for>
 
 	<!-- ======================================
 	      Object types

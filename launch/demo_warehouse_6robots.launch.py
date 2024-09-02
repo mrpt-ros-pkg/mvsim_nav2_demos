@@ -16,7 +16,7 @@ def generate_launch_description():
     # args that can be set from the command line or a default will be used
     world_file_launch_arg = DeclareLaunchArgument(
         "world_file", default_value=TextSubstitution(
-            text=os.path.join(mvsimDir, 'mvsim_tutorial', 'demo_warehouse.world.xml')))
+            text=os.path.join(mvsimDir, 'mvsim_tutorial', 'demo_warehouse_6robots.world.xml')))
 
     headless_launch_arg = DeclareLaunchArgument(
         "headless", default_value='False')
@@ -39,18 +39,39 @@ def generate_launch_description():
             }]
     )
 
-    rviz2_node = Node(
-        package='rviz2',
-        executable='rviz2',
-        name='rviz2',
-        arguments=[
-                '-d', [os.path.join(mvsimDir, 'mvsim_tutorial', 'demo_warehouse_ros2.rviz')]]
-    )
+    rviz2_nodes = [
+        Node(
+            package='rviz2',
+            executable='rviz2',
+            name='rviz2',
+            namespace=f"veh{idx}",
+            arguments=[
+                '-d', [os.path.join(mvsimDir, 'mvsim_tutorial', 'demo_warehouse_6robots_vehs_ros2.rviz')]]
+            output='screen',
+            remappings=[
+                ("/map", "map"),
+                ("/tf", "tf"),
+                ("/tf_static", "tf_static"),
+                ("/goal_pose", "goal_pose"),
+                ("/clicked_point", "clicked_point"),
+                ("/vehs/cmd_vel", f"/veh{idx}/cmd_vel"),
+                ("/vehs/lidar1_points", f"/veh{idx}/lidar1_points"),
+                ("/vehs/cam1", f"/veh{idx}/cam1"),
+                ("/vehs/chassis_markers", f"/veh{idx}/chassis_markers"),
+                ("/vehs/scanner1", f"/veh{idx}/scanner1"),
+                ("/vehs/simul_map", f"/veh{idx}/simul_map"),
+                ("/vehs/simul_map_updates", f"/veh{idx}/simul_map_updates"),
+            ],
+        )
+        for idx in range(1, 7)
+    ]
 
-    return LaunchDescription([
-        world_file_launch_arg,
-        headless_launch_arg,
-        do_fake_localization_arg,
-        mvsim_node,
-        rviz2_node
-    ])
+    return LaunchDescription(
+        [
+            world_file_launch_arg,
+            headless_launch_arg,
+            do_fake_localization_arg,
+            mvsim_node,
+        ]
+        + rviz2_nodes
+    )
