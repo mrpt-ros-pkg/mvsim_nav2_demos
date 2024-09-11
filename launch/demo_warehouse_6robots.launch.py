@@ -5,18 +5,22 @@ from launch.substitutions import TextSubstitution
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from launch.actions import DeclareLaunchArgument
+from launch.conditions import IfCondition
 from ament_index_python import get_package_share_directory
 import os
 
 
 def generate_launch_description():
-    mvsimDir = get_package_share_directory("mvsim")
-    # print('mvsimDir: ' + mvsimDir)
+    mvsim_dir = get_package_share_directory('mvsim')
+    mvsim_tutorial_dir = os.path.join(mvsim_dir, 'mvsim_tutorial')
 
-    # args that can be set from the command line or a default will be used
+    mvsim_nav2_demo_dir = get_package_share_directory('mvsim_nav2_demos')
+    mvsim_nav2_launch_dir = os.path.join(mvsim_nav2_demo_dir, 'launch')
+
+    ### mvsim
     world_file_launch_arg = DeclareLaunchArgument(
         "world_file", default_value=TextSubstitution(
-            text=os.path.join(mvsimDir, 'mvsim_tutorial', 'demo_warehouse_6robots.world.xml')))
+        text=os.path.join(mvsim_nav2_launch_dir, 'demo_warehouse_6robots.world.xml')))
 
     headless_launch_arg = DeclareLaunchArgument(
         "headless", default_value='False')
@@ -30,7 +34,7 @@ def generate_launch_description():
         name='mvsim',
         output='screen',
         parameters=[
-            os.path.join(mvsimDir, 'mvsim_tutorial',
+            os.path.join(mvsim_tutorial_dir,
                          'mvsim_ros2_params.yaml'),
             {
                 "world_file": LaunchConfiguration('world_file'),
@@ -39,14 +43,23 @@ def generate_launch_description():
             }]
     )
 
+    ### rviz
+    use_rviz = LaunchConfiguration('use_rviz')
+
+    declare_use_rviz_cmd = DeclareLaunchArgument(
+        'use_rviz',
+        default_value='False',
+        description='Whether to start RVIZ')
+
     rviz2_nodes = [
         Node(
+            condition=IfCondition(use_rviz),
             package='rviz2',
             executable='rviz2',
             name='rviz2',
             namespace=f"veh{idx}",
             arguments=[
-                '-d', [os.path.join(mvsimDir, 'mvsim_tutorial', 'demo_warehouse_6robots_vehs_ros2.rviz')]]
+                '-d', [os.path.join(mvsim_tutorial_dir, 'demo_warehouse_6robots_vehs_ros2.rviz')]],
             output='screen',
             remappings=[
                 ("/map", "map"),
@@ -72,6 +85,7 @@ def generate_launch_description():
             headless_launch_arg,
             do_fake_localization_arg,
             mvsim_node,
+            declare_use_rviz_cmd,
         ]
         + rviz2_nodes
     )

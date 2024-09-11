@@ -18,6 +18,7 @@ def generate_launch_description():
     nav2_bringup_launch_dir = os.path.join(nav2_bringup_dir, 'launch')
 
     mvsim_nav2_demo_dir = get_package_share_directory("mvsim_nav2_demos")
+    mvsim_nav2_params_dir = os.path.join(mvsim_nav2_demo_dir, 'params')
     mvsim_nav2_maps_dir = os.path.join(mvsim_nav2_demo_dir, 'maps')
     mvsim_nav2_rviz_dir = os.path.join(mvsim_nav2_demo_dir, 'rviz')
 
@@ -63,7 +64,7 @@ def generate_launch_description():
 
     declare_params_file_cmd = DeclareLaunchArgument(
         'params_file',
-        default_value='packages/nav2_bringup/params/mvsim_vehs_params.yaml',
+        default_value=os.path.join(mvsim_nav2_params_dir, 'mvsim_vehs_params.yaml'),
         description='Full path to the ROS2 parameters file to use for all launched nodes')
 
     declare_autostart_cmd = DeclareLaunchArgument(
