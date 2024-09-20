@@ -57,6 +57,42 @@ Therefore, this demo is useful for verification and implementation of the overal
   ros2 launch mvsim_nav2_demos mvsim_vehs_launch.py namespace:=veh6
   ```
 
+#### How to send a goal
+
+- Send goal via rviz:
+
+  - Click the ***Nav2 Goal*** button on the top bar.
+  - Click and hold on the goal position and drag to the goal heading.
+  - Then you can see a green arrow and that is the goal (2d position and heading).
+
+- Send goal action via terminal:
+
+  - The namespace is ***veh1*** and ***-f*** option is for the feedback information
+
+  ```bash
+  ros2 action send_goal /veh1/navigate_to_pose nav2_msgs/action/NavigateToPose \
+  "{pose: {header: {stamp: {sec: 0, nanosec: 0}, frame_id: \"map\"}, \
+  pose: {position: {x: 1.0, y: 0.0, z: 0.0}, orientation: {x: 0.0, y: 0.0, z: 0.0, w: 1.0}}}, \
+  behavior_tree: \"\"}" -f
+  ```
+
+- Send goal poses action via terminal:
+
+  - The namespace is ***veh1*** and ***-f*** option is for the feedback information
+
+  ```bash
+  ros2 action send_goal /veh1/navigate_through_poses nav2_msgs/action/NavigateThroughPoses \
+    "{poses: [
+    {header: {stamp: {sec: 0, nanosec: 0}, frame_id: \"map\"}, \
+    pose: {position: {x: 1.0, y: 0.0, z: 0.0}, orientation: {x: 0.0, y: 0.0, z: 0.0, w: 1.0}}}, \
+    {header: {stamp: {sec: 0, nanosec: 0}, frame_id: \"map\"}, \
+    pose: {position: {x: 3.0, y: 0.0, z: 0.0}, orientation: {x: 0.0, y: 0.0, z: 0.0, w: 1.0}}}, \
+    {header: {stamp: {sec: 0, nanosec: 0}, frame_id: \"map\"}, \
+    pose: {position: {x: 5.0, y: 1.0, z: 0.0}, orientation: {x: 0.0, y: 0.0, z: 0.0, w: 1.0}}}, \
+    ], \
+    behavior_tree: \"\"}" -f
+  ```
+
 ## Launch alternative with mrpt_navigation
 
 - Clone into "src" https://github.com/mrpt-ros-pkg/mrpt_navigation.git
