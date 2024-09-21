@@ -37,6 +37,8 @@ This package is based on [nav2_bringup](https://github.com/ros-planning/navigati
 
 ### Multi-agent demo
 
+> ROS2 Humble only ([Issue](https://github.com/ros2/rviz/issues/463) is occurred in Iron and Jazzy.)
+
 Multi-agent demo supports multiple agents with fake-amcl (ground truth on mvsim).
 Therefore, this demo is useful for verification and implementation of the overall system, including path planning.
 
