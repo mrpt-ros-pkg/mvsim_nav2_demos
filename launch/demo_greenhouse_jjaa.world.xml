@@ -27,9 +27,9 @@
 
 	<variable name="NUM_TILTED_BEAMS_X" value="21"></variable>
 	<variable name="NUM_TILTED_BEAMS_Y" value="10"></variable>
-	
+
 	<variable name="NUM_CORRIDORS_X" value="10"></variable>
-	
+
 	<variable name="NUM_PLANTS_CORRIDOR_SOUTH" value="4"></variable>
 	<variable name="NUM_PLANTS_CORRIDOR_NORTH" value="7"></variable>
 
@@ -37,7 +37,7 @@
 	<variable name="NUM_POLES_Y" value="10"></variable>
 
 	<variable name="PLANTS_RAND_XY" value="0.35"></variable>
-	
+
 	<variable name="CEILING_HEIGHT" value="3.0"></variable>
 
 	<!-- ========================
@@ -107,7 +107,7 @@
 	<!-- =============================
 		   Vehicle classes definition
 	     ============================= -->
-	<include file="agricobiot2.vehicle.xml" />
+	<include file="../definitions/agricobiot2.vehicle.xml" />
 
 	<!-- ========================
 		   Vehicle(s) definition
@@ -142,16 +142,16 @@
 
 		<include file="rplidar-a2.sensor.xml"
 			raytrace_3d="true"
-			sensor_x="0.0" sensor_z="1.15" sensor_yaw="0" sensor_name="laser1" 
+			sensor_x="0.0" sensor_z="1.15" sensor_yaw="0" sensor_name="laser1"
 			sensor_hz="10.0"
 		/>
 
 <!--
-		<include file="camera.sensor.xml" 
+		<include file="camera.sensor.xml"
 		  sensor_x="0.9"  sensor_y="0" sensor_z="0.75"
 		  sensor_period_sec="0.20"
 		  sensor_name="cam1"
-		  />		
+		  />
 -->
 	</vehicle>
 
@@ -206,9 +206,9 @@
 	     ====================================== -->
 	<!-- You can assign an optional custom name to each object, as an attribute to block, like name="shelf_001", etc. -->
 
-	<!-- All coordinates are global coords: 
+	<!-- All coordinates are global coords:
 	     SE(2) <init_pose>x y yaw(deg)</init_pose> or
-	     SE(3) <init_pose3d>x y z yaw(deg) pitch(deg) roll(deg)</init_pose3d> 
+	     SE(3) <init_pose3d>x y z yaw(deg) pitch(deg) roll(deg)</init_pose3d>
 	-->
 
 	<!-- H-beams along the X axis -->

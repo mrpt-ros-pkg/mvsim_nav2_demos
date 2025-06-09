@@ -1,0 +1,257 @@
+<mvsim_world version="1.0">
+	<!-- General simulation options -->
+	<simul_timestep>0</simul_timestep> <!-- Simulation fixed-time interval for numerical integration [seconds] or 0 to autodetermine -->
+
+	<joystick_enabled>true</joystick_enabled>
+
+	<!-- Optional: save all sensor data into an MRPT .rawlog dataset file: -->
+	<!-- <save_to_rawlog>warehouse_dataset.rawlog</save_to_rawlog> -->
+	<!-- If save_to_rawlog is enabled, this defines the rate in Hz to generate odometry observations -->
+	<!-- <rawlog_odometry_rate>20.0</rawlog_odometry_rate> -->
+	<!-- <save_ground_truth_trajectory>warehouse_dataset_gt.txt</save_ground_truth_trajectory> -->
+
+	<!-- GUI options -->
+	<gui>
+		<ortho>false</ortho>
+		<show_forces>false</show_forces>  <force_scale>0.01</force_scale>
+		<cam_distance>25</cam_distance>
+		<fov_deg>60</fov_deg>
+		<refresh_fps>40</refresh_fps>
+		<!-- <follow_vehicle>r1</follow_vehicle> -->
+
+	</gui>
+
+	<!-- Light parameters -->
+	<lights>
+		<enable_shadows>true</enable_shadows>
+		<light_azimuth_deg>60.0</light_azimuth_deg>
+		<light_elevation_deg>75.0</light_elevation_deg>
+		<!-- <eye_distance_to_shadow_map_extension>2</eye_distance_to_shadow_map_extension> -->
+		<!-- <minimum_shadow_map_extension_ratio>0.005</minimum_shadow_map_extension_ratio> -->
+	</lights>
+
+	<variable name="CEILING_HEIGHT" value="6.0"></variable>
+
+	<!-- ========================
+		   Scenario definition
+	     ======================== -->
+	<!-- ground -->
+	<element class="horizontal_plane">
+		<cull_face>BACK</cull_face>
+		<x_min>-15</x_min> <y_min>-13</y_min>
+		<x_max> 20</x_max> <y_max> 13</y_max>
+		<z>0.0</z>
+		<texture>https://mrpt.github.io/mvsim-models/textures-cgbookcase/concrete-ground-1.jpg</texture>
+		<texture_size_x>2.0</texture_size_x>
+		<texture_size_y>2.0</texture_size_y>
+	</element>
+
+	<!-- ceiling -->
+	<element class="horizontal_plane">
+		<cull_face>FRONT</cull_face>
+		<x_min>-15</x_min> <y_min>-13</y_min>
+		<x_max> 20</x_max> <y_max> 13</y_max>
+		<z>$f{CEILING_HEIGHT}</z>
+		<texture>https://mrpt.github.io/mvsim-models/textures-cgbookcase/BathroomTiles03_1K_BaseColor.png</texture>
+		<texture_size_x>3.0</texture_size_x>
+		<texture_size_y>3.0</texture_size_y>
+	</element>
+
+	<!-- perimeter walls: -->
+	<element class="vertical_plane">
+		<cull_face>FRONT</cull_face>
+		<x0>-15</x0> <y0>13</y0>
+		<x1>-15</x1> <y1>-13</y1>
+		<z>0.0</z> <height>$f{CEILING_HEIGHT}</height>
+		<texture>https://mrpt.github.io/mvsim-models/textures-cgbookcase/wall-bricks-01.png</texture>
+		<texture_size_x>3.0</texture_size_x>
+		<texture_size_y>3.0</texture_size_y>
+	</element>
+	<element class="vertical_plane">
+		<cull_face>FRONT</cull_face>
+		<x0> 20</x0> <y0>13</y0>
+		<x1>-15</x1> <y1>13</y1>
+		<z>0.0</z> <height>$f{CEILING_HEIGHT}</height>
+		<texture>https://mrpt.github.io/mvsim-models/textures-cgbookcase/wall-bricks-01.png</texture>
+		<texture_size_x>3.0</texture_size_x>
+		<texture_size_y>3.0</texture_size_y>
+	</element>
+	<element class="vertical_plane">
+		<cull_face>FRONT</cull_face>
+		<x0> 20</x0> <y0>-13</y0>
+		<x1> 20</x1> <y1>13</y1>
+		<z>0.0</z> <height>$f{CEILING_HEIGHT}</height>
+		<texture>https://mrpt.github.io/mvsim-models/textures-cgbookcase/wall-bricks-01.png</texture>
+		<texture_size_x>3.0</texture_size_x>
+		<texture_size_y>3.0</texture_size_y>
+	</element>
+	<element class="vertical_plane">
+		<cull_face>FRONT</cull_face>
+		<x0>-15</x0> <y0>-13</y0>
+		<x1> 20</x1> <y1>-13</y1>
+		<z>0.0</z> <height>$f{CEILING_HEIGHT}</height>
+		<texture>https://mrpt.github.io/mvsim-models/textures-cgbookcase/wall-bricks-01.png</texture>
+		<texture_size_x>3.0</texture_size_x>
+		<texture_size_y>3.0</texture_size_y>
+	</element>
+
+	<!-- =============================
+		   Vehicle classes definition
+	     ============================= -->
+	<include file="../definitions/jackal.vehicle.xml"
+		default_sensors="true"
+	/>
+
+	<!-- ========================
+		   Vehicle(s) definition
+	     ======================== -->
+	<for var="iX" from="0" to="1">
+		<for var="iY" from="0" to="2">
+			<vehicle class="jackal">
+				<init_pose>$f{12*iX-6} $f{12*iY-12} 0</init_pose>  <!-- In global coords: x,y, yaw(deg) -->
+			</vehicle>
+		</for>
+	</for>
+
+	<!-- ======================================
+	      Object types
+	     ====================================== -->
+	<block:class name="shelf">
+		<static>true</static> <!-- Does not move -->
+		<shape_from_visual/> <!-- automatic shape,zmin,zmax from 3D mesh-->
+		<!--  Custom visualization model. 3D model filename to load (local or remote http://uri ) -->
+		<visual>
+			<model_uri>https://mrpt.github.io/mvsim-models/shelf_big_moveai.zip/shelf_big_moveai/shelf_big_movai.dae</model_uri>
+			<model_roll>90.0</model_roll>
+		</visual>
+	</block:class>
+
+	<block:class name="stairs">
+		<static>true</static> <!-- Does not move -->
+		<zmin>0.0</zmin> <zmax>0.5</zmax>
+		<shape_from_visual/> <!-- automatic shape,zmin,zmax from 3D mesh-->
+		<!--  Custom visualization model. 3D model filename to load (local or remote http://uri ) -->
+		<visual>
+			<model_uri>https://mrpt.github.io/mvsim-models/metal-stairs.dae</model_uri>
+			<model_offset_z>4.31</model_offset_z>
+			<model_roll>90.0</model_roll>
+		</visual>
+	</block:class>
+
+	<block:class name="tote">
+		<mass>6</mass> <ground_friction>0.1</ground_friction>
+		<shape_from_visual/> <!-- automatic shape,zmin,zmax from 3D mesh-->
+		<!--  Custom visualization model. 3D model filename to load (local or remote http://uri ) -->
+		<visual>
+			<model_uri>https://mrpt.github.io/mvsim-models/tote.dae</model_uri>
+			<model_roll>90.0</model_roll>
+		</visual>
+	</block:class>
+
+	<block:class name="pallet">
+		<mass>2</mass> <ground_friction>0.1</ground_friction>
+		<shape_from_visual/> <!-- automatic shape,zmin,zmax from 3D mesh-->
+		<!--  Custom visualization model. 3D model filename to load (local or remote http://uri ) -->
+		<visual>
+			<model_uri>https://mrpt.github.io/mvsim-models/pallet.zip/pallet/pallet.dae</model_uri>
+			<model_roll>90.0</model_roll>
+		</visual>
+	</block:class>
+
+	<block:class name="pallet_jack">
+		<mass>20</mass> <ground_friction>1.0</ground_friction>
+		<shape_from_visual/> <!-- automatic shape,zmin,zmax from 3D mesh-->
+		<!--  Custom visualization model. 3D model filename to load (local or remote http://uri ) -->
+		<visual>
+			<model_uri>https://mrpt.github.io/mvsim-models/pallet_jack.zip/pallet_jack/pallet_jack.dae</model_uri>
+			<model_roll>90.0</model_roll>
+		</visual>
+	</block:class>
+
+	<block:class name="chair_x3">
+		<mass>6</mass> <ground_friction>0.1</ground_friction>
+		<shape_from_visual/> <!-- automatic shape,zmin,zmax from 3D mesh-->
+		<!--  Custom visualization model. 3D model filename to load (local or remote http://uri ) -->
+		<visual>
+			<model_uri>https://mrpt.github.io/mvsim-models/chair_x3.dae</model_uri>
+			<model_roll>90.0</model_roll>
+		</visual>
+	</block:class>
+
+	<block:class name="extinguisher">
+		<static>true</static> <!-- Does not move -->
+		<mass>2</mass> <ground_friction>1</ground_friction>
+		<shape_from_visual/> <!-- automatic shape,zmin,zmax from 3D mesh-->
+		<!--  Custom visualization model. 3D model filename to load (local or remote http://uri ) -->
+		<visual>
+			<model_uri>https://mrpt.github.io/mvsim-models/extinguisher.zip/extinguisher/extinguisher.dae</model_uri>
+			<model_roll>90.0</model_roll>
+		</visual>
+	</block:class>
+
+
+	<!-- ======================================
+	      Object instances
+	     ====================================== -->
+	<!-- You can assign an optional custom name to each object, as an attribute to block, like name="shelf_001", etc. -->
+
+	<!-- All coordinates are global coords:
+	     SE(2) <init_pose>x y yaw(deg)</init_pose> or
+	     SE(3) <init_pose3d>x y z yaw(deg) pitch(deg) roll(deg)</init_pose3d>
+	-->
+
+	<block class="shelf"> <init_pose>0 5 0</init_pose> </block>
+	<block class="shelf"> <init_pose>0 9 180</init_pose> </block>
+
+	<block class="shelf"> <init_pose>0 -5 0</init_pose> </block>
+	<block class="shelf"> <init_pose>0 -9 180</init_pose> </block>
+
+	<block class="shelf"> <init_pose>12 0 90</init_pose> </block>
+	<block class="shelf"> <init_pose>17 0 -90</init_pose> </block>
+
+	<block class="pallet_jack"> <init_pose>3 3 0</init_pose> </block>
+	<block class="pallet_jack"> <init_pose>-12.5 11.5 -10</init_pose> </block>
+	<block class="pallet_jack"> <init_pose>-11 12 80</init_pose> </block>
+
+	<block class="pallet_jack">
+		<init_pose>0 0 0</init_pose>
+		<animation type="keyframes">
+			<time_pose>0.0  -13 -3  0</time_pose>
+			<time_pose>10.0  5  -3  0</time_pose>
+			<time_pose>11.0  5  -3  0</time_pose>
+			<time_pose>14.0  5  -3  180</time_pose>
+			<time_pose>24.0  -13 -3 180</time_pose>
+			<time_pose>25.0  -13 -3 180</time_pose>
+			<time_pose>26.0  -13 -3 0</time_pose>
+		</animation>
+	</block>
+
+
+	<block class="stairs"> <init_pose>-12 -11.5 -90</init_pose> </block>
+	<block class="stairs"> <init_pose> 15  11.5 90</init_pose> </block>
+
+	<block class="tote"> <init_pose>-2 3 -40</init_pose> </block>
+	<block class="tote"> <init_pose> 2 3 10</init_pose> </block>
+
+	<block class="pallet"> <init_pose>10.4 -1.1 85</init_pose> </block>
+	<block class="pallet"> <init_pose>10.3 -2.3 91</init_pose> </block>
+	<block class="pallet"> <init_pose>10.5 1.15 80</init_pose> </block>
+	<block class="pallet"> <init_pose>10.2 0.1 86</init_pose> </block>
+
+	<for var="iX" from="0" to="2">
+		<for var="iY" from="0" to="1">
+			<block class="pallet">
+				<init_pose>$f{-7.9+iX*1.3} $f{0.9*iY+2} 0</init_pose>
+			</block>
+		</for>
+	</for>
+
+
+	<block class="chair_x3"> <init_pose>-14.5 1 90</init_pose> </block>
+	<block class="chair_x3"> <init_pose>-14.5 3 90</init_pose> </block>
+
+	<block class="extinguisher"> <init_pose3d>-14.8 12 1.1 90 0 0</init_pose3d> </block>
+	<block class="extinguisher"> <init_pose3d> 6.5 12.9 1.1 0 0 0</init_pose3d> </block>
+	<block class="extinguisher"> <init_pose3d> 2.5 -12.9 1.1 180 0 0</init_pose3d> </block>
+
+</mvsim_world>
